@@ -45,32 +45,35 @@ func (e *Entry) WithField(key string, value interface{}) *Entry {
 
 // WithError returns a new entry with the "error" set to `err`.
 func (e *Entry) WithError(err error) *Entry {
+	if err == nil {
+		return e.WithField("error", err)
+	}
 	return e.WithField("error", err.Error())
 }
 
 // Debug level message.
-func (e *Entry) Debug(msg string) {
-	e.Logger.log(DebugLevel, e, msg)
+func (e *Entry) Debug(v ...interface{}) {
+	e.Logger.log(DebugLevel, e, sprintlnn(v...))
 }
 
 // Info level message.
-func (e *Entry) Info(msg string) {
-	e.Logger.log(InfoLevel, e, msg)
+func (e *Entry) Info(v ...interface{}) {
+	e.Logger.log(InfoLevel, e, sprintlnn(v...))
 }
 
 // Warn level message.
-func (e *Entry) Warn(msg string) {
-	e.Logger.log(WarnLevel, e, msg)
+func (e *Entry) Warn(v ...interface{}) {
+	e.Logger.log(WarnLevel, e, sprintlnn(v...))
 }
 
 // Error level message.
-func (e *Entry) Error(msg string) {
-	e.Logger.log(ErrorLevel, e, msg)
+func (e *Entry) Error(v ...interface{}) {
+	e.Logger.log(ErrorLevel, e, sprintlnn(v...))
 }
 
 // Fatal level message, followed by an exit.
-func (e *Entry) Fatal(msg string) {
-	e.Logger.log(FatalLevel, e, msg)
+func (e *Entry) Fatal(v ...interface{}) {
+	e.Logger.log(FatalLevel, e, sprintlnn(v...))
 	os.Exit(1)
 }
 
@@ -119,13 +122,21 @@ func (e *Entry) Stop(err *error) {
 	}
 }
 
-// mergedFields returns the fields list collapsed into a single map.
+// mergedFields returns the fields list collapsed into a single map and
+// resolves all Fn types.
 func (e *Entry) mergedFields() Fields {
 	f := Fields{}
 
 	for _, fields := range e.fields {
 		for k, v := range fields {
-			f[k] = v
+			switch v := v.(type) {
+			case error:
+				f[k] = v.Error()
+			case Fn:
+				f[k] = v()
+			default:
+				f[k] = v
+			}
 		}
 	}
 

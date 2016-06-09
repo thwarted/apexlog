@@ -5,10 +5,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/apex/log"
-	"github.com/apex/log/handlers/discard"
-	"github.com/apex/log/handlers/memory"
 	"github.com/stretchr/testify/assert"
+	"github.com/thwarted/apexlog"
+	"github.com/thwarted/apexlog/handlers/discard"
+	"github.com/thwarted/apexlog/handlers/memory"
 )
 
 func TestLogger_printf(t *testing.T) {

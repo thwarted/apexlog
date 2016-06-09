@@ -59,28 +59,28 @@ func (l *Logger) WithError(err error) *Entry {
 }
 
 // Debug level message.
-func (l *Logger) Debug(msg string) {
-	NewEntry(l).Debug(msg)
+func (l *Logger) Debug(v ...interface{}) {
+	NewEntry(l).Debug(sprintlnn(v...))
 }
 
 // Info level message.
-func (l *Logger) Info(msg string) {
-	NewEntry(l).Info(msg)
+func (l *Logger) Info(v ...interface{}) {
+	NewEntry(l).Info(v...)
 }
 
 // Warn level message.
-func (l *Logger) Warn(msg string) {
-	NewEntry(l).Warn(msg)
+func (l *Logger) Warn(v ...interface{}) {
+	NewEntry(l).Warn(v...)
 }
 
 // Error level message.
-func (l *Logger) Error(msg string) {
-	NewEntry(l).Error(msg)
+func (l *Logger) Error(v ...interface{}) {
+	NewEntry(l).Error(v...)
 }
 
 // Fatal level message, followed by an exit.
-func (l *Logger) Fatal(msg string) {
-	NewEntry(l).Fatal(msg)
+func (l *Logger) Fatal(v ...interface{}) {
+	NewEntry(l).Fatal(v...)
 }
 
 // Debugf level formatted message.
@@ -119,6 +119,9 @@ func (l *Logger) Trace(msg string) *Entry {
 // met.
 func (l *Logger) log(level Level, e *Entry, msg string) {
 	if level < l.Level {
+		return
+	}
+	if l.Handler == nil {
 		return
 	}
 

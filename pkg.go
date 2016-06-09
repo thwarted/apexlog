@@ -1,8 +1,13 @@
 package log
 
+import (
+	"os"
+)
+
 // singletons ftw?
 var Log Interface = &Logger{
-	Level: InfoLevel,
+	Handler: NewSimple(os.Stderr),
+	Level:   InfoLevel,
 }
 
 // SetHandler sets the handler. This is not thread-safe.
@@ -35,28 +40,28 @@ func WithError(err error) *Entry {
 }
 
 // Debug level message.
-func Debug(msg string) {
-	Log.Debug(msg)
+func Debug(v ...interface{}) {
+	Log.Debug(v...)
 }
 
 // Info level message.
-func Info(msg string) {
-	Log.Info(msg)
+func Info(v ...interface{}) {
+	Log.Info(v...)
 }
 
 // Warn level message.
-func Warn(msg string) {
-	Log.Warn(msg)
+func Warn(v ...interface{}) {
+	Log.Warn(v...)
 }
 
 // Error level message.
-func Error(msg string) {
-	Log.Error(msg)
+func Error(v ...interface{}) {
+	Log.Error(v...)
 }
 
 // Fatal level message, followed by an exit.
-func Fatal(msg string) {
-	Log.Fatal(msg)
+func Fatal(v ...interface{}) {
+	Log.Fatal(v...)
 }
 
 // Debugf level formatted message.

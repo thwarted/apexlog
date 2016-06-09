@@ -2,7 +2,7 @@
 package discard
 
 import (
-	"github.com/apex/log"
+	log "github.com/thwarted/apexlog"
 )
 
 // Default handler.

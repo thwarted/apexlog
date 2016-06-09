@@ -6,8 +6,8 @@ import (
 	"os"
 	"sync"
 
-	"github.com/apex/log"
 	"github.com/go-logfmt/logfmt"
+	log "github.com/thwarted/apexlog"
 )
 
 // Default handler outputting to stderr.

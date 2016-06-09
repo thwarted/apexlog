@@ -1,5 +1,6 @@
-// Package cli implements a colored text handler suitable for command-line interfaces.
-package cli
+// Package cli2 implements a colored text handler suitable for command-line interfaces.
+// colors are bolded and a time offset
+package cli2
 
 import (
 	"fmt"
@@ -61,16 +62,14 @@ func (a byName) Less(i, j int) bool { return a[i].Name < a[j].Name }
 
 // Handler implementation.
 type Handler struct {
-	mu      sync.Mutex
-	Writer  io.Writer
-	Padding int
+	mu     sync.Mutex
+	Writer io.Writer
 }
 
 // New handler.
 func New(w io.Writer) *Handler {
 	return &Handler{
-		Writer:  w,
-		Padding: 3,
+		Writer: w,
 	}
 }
 
@@ -90,10 +89,14 @@ func (h *Handler) HandleLog(e *log.Entry) error {
 	h.mu.Lock()
 	defer h.mu.Unlock()
 
-	fmt.Fprintf(h.Writer, "\033[%dm%*s\033[0m %-25s", color, h.Padding+1, level, e.Message)
+	bold := "1;"
+
+	ts := int(time.Since(start) / time.Second)
+
+	fmt.Fprintf(h.Writer, "%04d \033[%s%dm%s\033[0m %-25s", ts, bold, color, level, e.Message)
 
 	for _, f := range fields {
-		fmt.Fprintf(h.Writer, " \033[%dm%s\033[0m=%v", color, f.Name, f.Value)
+		fmt.Fprintf(h.Writer, " \033[%s%dm%s\033[0m=%v", bold, color, f.Name, f.Value)
 	}
 
 	fmt.Fprintln(h.Writer)
