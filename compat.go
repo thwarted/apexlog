@@ -39,6 +39,12 @@ func Println(v ...interface{}) {
 // their type. Instead of vendoring the Sprintln implementation to spare a
 // string allocation, we do the simplest thing.
 func sprintlnn(args ...interface{}) string {
+	// fast path for single, simple string
+	if len(args) == 1 {
+		if s, ok := args[0].(string); ok {
+			return s
+		}
+	}
 	msg := fmt.Sprintln(args...)
 	return msg[:len(msg)-1]
 }
