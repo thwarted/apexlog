@@ -22,4 +22,4 @@ type Interface interface {
 
 // Any values that are dynamically determined at log time
 // using a function call should be cast to this type.
-type Fn func() string
+type Fn func() interface{}
