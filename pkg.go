@@ -39,6 +39,11 @@ func WithError(err error) *Entry {
 	return Log.WithError(err)
 }
 
+// WithError returns a new entry with the "error" set to `err`.
+func WithMemStats() *Entry {
+	return Log.WithMemStats()
+}
+
 // Debug level message.
 func Debug(v ...interface{}) {
 	Log.Debug(v...)

@@ -5,6 +5,7 @@ type Interface interface {
 	WithFields(fields Fielder) *Entry
 	WithField(key string, value interface{}) *Entry
 	WithError(err error) *Entry
+	WithMemStats() *Entry
 	Debug(v ...interface{})
 	Info(v ...interface{})
 	Warn(v ...interface{})
