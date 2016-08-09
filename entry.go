@@ -51,6 +51,10 @@ func (e *Entry) WithError(err error) *Entry {
 	return e.WithField("error", err.Error())
 }
 
+func (e *Entry) WithMemStats() *Entry {
+	return e.WithField("memstats", Fn(getMemStats))
+}
+
 // Debug level message.
 func (e *Entry) Debug(v ...interface{}) {
 	e.Logger.log(DebugLevel, e, sprintlnn(v...))

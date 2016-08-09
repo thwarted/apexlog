@@ -58,6 +58,10 @@ func (l *Logger) WithError(err error) *Entry {
 	return NewEntry(l).WithError(err)
 }
 
+func (l *Logger) WithMemStats() *Entry {
+	return NewEntry(l).WithField("memstats", Fn(getMemStats))
+}
+
 // Debug level message.
 func (l *Logger) Debug(v ...interface{}) {
 	NewEntry(l).Debug(sprintlnn(v...))

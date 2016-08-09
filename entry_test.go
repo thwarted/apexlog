@@ -40,3 +40,11 @@ func TestEntry_WithError(t *testing.T) {
 	c := a.WithError(nil)
 	assert.Equal(t, Fields{"error": nil}, c.mergedFields())
 }
+
+func TestEntry_WithMem(t *testing.T) {
+	a := NewEntry(nil).WithError(fmt.Errorf("boom")).WithMemStats()
+	x := a.mergedFields()
+	assert.NotEqual(t, x["error"], nil)
+	assert.NotEqual(t, x["memstats"], nil)
+	assert.Equal(t, x["notset"], nil)
+}
