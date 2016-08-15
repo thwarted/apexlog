@@ -5,10 +5,10 @@ import (
 )
 
 type logMemStats struct {
-	Alloc      uint64
-	TotalAlloc uint64
-	HeapAlloc  uint64
-	HeapSys    uint64
+	Alloc       uint64
+	TotalAlloc  uint64
+	HeapAlloc   uint64
+	HeapObjects uint64
 }
 
 func getMemStats() interface{} {
@@ -16,9 +16,9 @@ func getMemStats() interface{} {
 	// runtime.Memstats is a pretty big structure, so just grab some key stuff
 	runtime.ReadMemStats(&mem)
 	return logMemStats{
-		Alloc:      mem.Alloc,
-		TotalAlloc: mem.TotalAlloc,
-		HeapAlloc:  mem.HeapAlloc,
-		HeapSys:    mem.HeapSys,
+		Alloc:       mem.Alloc,
+		TotalAlloc:  mem.TotalAlloc,
+		HeapAlloc:   mem.HeapAlloc,
+		HeapObjects: mem.HeapObjects,
 	}
 }
