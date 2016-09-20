@@ -46,5 +46,8 @@ func TestEntry_WithMem(t *testing.T) {
 	x := a.mergedFields()
 	assert.NotEqual(t, x["error"], nil)
 	assert.NotEqual(t, x["memstats"], nil)
+	assert.NotEqual(t, x["memstats"].(logMemStats).Alloc, nil)
+	assert.NotEqual(t, x["memstats"].(logMemStats).HeapAlloc, nil)
+	assert.NotEqual(t, x["memstats"].(logMemStats).StackSys, nil)
 	assert.Equal(t, x["notset"], nil)
 }

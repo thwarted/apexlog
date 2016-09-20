@@ -9,6 +9,8 @@ type logMemStats struct {
 	TotalAlloc  uint64
 	HeapAlloc   uint64
 	HeapObjects uint64
+	StackInuse  uint64
+	StackSys    uint64
 }
 
 func getMemStats() interface{} {
@@ -20,5 +22,7 @@ func getMemStats() interface{} {
 		TotalAlloc:  mem.TotalAlloc,
 		HeapAlloc:   mem.HeapAlloc,
 		HeapObjects: mem.HeapObjects,
+		StackInuse:  mem.StackInuse,
+		StackSys:    mem.StackSys,
 	}
 }
